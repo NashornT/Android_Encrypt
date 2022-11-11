@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/azul_cinza"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginVertical="30dp"
+        android:text="anotação"
+        android:textAlignment="center"
+        android:textColor="@color/abobora"
+        android:textSize="25dp" />
+
+    <EditText
+        android:id="@+id/txt_anotações"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:backgroundTint="@color/abobora"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:text="Titulo"
+        android:textAlignment="center"
+        android:textColor="@color/abobora"
+        android:textSize="25dp" />
+
+    <EditText
+        android:id="@+id/txt_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/abobora"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+
+    <Button
+        android:id="@+id/btn_save_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save " />
+
+    <Button
+        android:id="@+id/btn_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="anotações"/>
+
+    <TextView
+        android:id="@+id/sair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="120dp"
+        android:textColor="@color/abobora"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:text="Sair" />
+
+</LinearLayout>
