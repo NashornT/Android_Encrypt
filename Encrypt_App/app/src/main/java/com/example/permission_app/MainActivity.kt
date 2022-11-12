@@ -40,6 +40,11 @@ import kotlin.system.exitProcess
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.MasterKeys
 import com.example.permission_app.Auth.Login
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.*
 
@@ -56,10 +61,9 @@ class MainActivity : AppCompatActivity() {
     var nomeArquivo = ""
     val TAGB = "Arquivos"
 
-
-
-
-
+    private var _interstitialAd: InterstitialAd? = null
+    private var _bannerAd: AdView? = null
+    private var _rewardAd: RewardedAd? = null
     private lateinit var singlePermissionLauncher: ActivityResultLauncher<String>
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -68,10 +72,10 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         getLastLocation()
 
-
-
-
-
+        MobileAds.initialize(this)
+        loadInterstitial()
+        loadRewardAd()
+        loadBannerAd()
 
     }
 
@@ -100,34 +104,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-//        findViewById<Button>(R.id.btn_get_location).setOnClickListener {
-//
-//            getLastLocation()
-//            findViewById<Button>(R.id.btn_save_loc).isEnabled = true
-//            findViewById<Button>(R.id.btn_save_file).isEnabled = true
-//        }
-
-//        findViewById<Button>(R.id.btn_save_loc).setOnClickListener {
-//
-//            if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-//                != PackageManager.PERMISSION_GRANTED
-//            ){
-//                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),101)
-//
-//            }
-//
-//            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-//                addCategory(Intent.CATEGORY_OPENABLE)
-//                type = "text/plain"
-//                putExtra(Intent.EXTRA_TITLE, "${dateInString}")
-//                putExtra(DocumentsContract.EXTRA_INITIAL_URI,"")
-//
-//            }
-//            startActivityForResult(intent,CREATE_FILE)
-//            findViewById<Button>(R.id.btn_result).isEnabled = true
-//        }
-
         findViewById<Button>(R.id.btn_result).setOnClickListener {
 
             val intent = Intent(this,ResultActivity::class.java)
@@ -147,44 +123,63 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,Login::class.java)
             startActivity(intent)
         }
-        
+
 
 
 
     }
 
+    private fun loadRewardAd() {
+        var adRequest = AdRequest.Builder().build()
 
+        RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917", adRequest, object : RewardedAdLoadCallback() {
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                _rewardAd = null
+            }
 
-//    fun deleteIfExists(nomeArquivo: String){
-//
-//        val arquivoTexto = File(filesDir, "${(nomeArquivo + onlydate)}.txt")
-//        val arquivoFoto = File(filesDir, "${(nomeArquivo + onlydate)}.fig")
-//
-//        val txtExists = arquivoTexto.exists()
-//        val figExists = arquivoFoto.exists()
-//
-//        if(txtExists){
-//            arquivoTexto.delete()
-//        }
-//        if (figExists){
-//            arquivoFoto.delete()
-//        }
-//
-//
-//    }
+            override fun onAdLoaded(p0: RewardedAd) {
+                _rewardAd = p0
+            }
+        })
+    }
 
+    private fun loadInterstitial() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                _interstitialAd = null;
+            }
 
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                _interstitialAd = interstitialAd
+            }
+        })
+    }
 
-    fun isExternalStorageWritable(): Boolean {
-        if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            Log.i(TAG, "Pode escrever no diretorio externo.")
-            return true
-        } else {
-            Log.i(TAG, "Não pode escrever no diretorio externo.")
+    private fun loadBannerAd() {
+        _bannerAd = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        _bannerAd?.loadAd(adRequest)
+    }
+
+    fun showInterstitial(view: View) {
+        _interstitialAd?.show(this)
+    }
+
+    fun showReward(view: View) {
+        _rewardAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+                _rewardAd = null
+                loadRewardAd()
+            }
         }
-        return false
-    }
 
+        _rewardAd?.show(this, OnUserEarnedRewardListener { rewardItem ->
+            var rewardAmount = rewardItem.amount
+            var rewardType = rewardItem.type
+            println("$rewardAmount $rewardType Awarded")
+        })
+    }
 
     private fun setupCheckPermissions() {
         // Lançador de requisição de uma permissão:
@@ -217,27 +212,11 @@ class MainActivity : AppCompatActivity() {
                         "${(nomeArquivo + onlydate)}"
             )
 
-//            if(foto!= null){
-//                savePhotoToEncryptedFile(
-//                    getEncryptedFile("${(nomeArquivo + onlydate)}.fig"),
-//                    foto!!
-//                )
-//            }
 
         }
 
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            if (data != null) {
-//                foto = data.extras?.get("data") as Bitmap
-//                setFotoToView(foto!!)
-//            }
-//
-//        }
-//    }
 
     fun writeToEncryptedFile(
         encryptedFile: EncryptedFile,
@@ -296,25 +275,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // METODO  para salvar um Doc_FILE
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//
-//        if(requestCode == CREATE_FILE && resultCode == RESULT_OK){
-//            val url = data!!.data
-//            try {
-//                val outputStream = this.contentResolver.openOutputStream(url!!)
-//                outputStream?.write("Latitude:${lat}\nLongitude:${long}".toByteArray())
-//                outputStream?.close()
-//            } catch (e:Exception){
-//                print(e.localizedMessage)
-//            }
-//        }
-//
-//
-//    }
-
     // METODO  para pegar a GeoLocalização
     private fun getLastLocation() {
         val task = fusedLocationProviderClient.lastLocation
@@ -348,61 +308,6 @@ class MainActivity : AppCompatActivity() {
         return Calendar.getInstance().time
     }
 
-    // METODO #1 para escrever em arquivos
-    fun writeFile() {
-        if (isExternalStorageWritable()) {
-            val endereco = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            nomeArquivo = date.toString("yyyy_MM_dd__HH_mm_ss")
-            val file = File("$endereco/$nomeArquivo")
-            Log.i(TAG, "Criando arquivo em")
-            Log.i(TAG, "${file.absolutePath}")
-            try {
-                file.writeText("Latitude:${lat}\n" +
-                        "Longitude:${long}")
-            } catch (e: java.lang.Exception) {
-                Log.i(TAG, e.message!!)
-            }
-        } else {
-            Toast.makeText(
-                this,
-                "Não foi possível escrever no disco",
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
-    }
 
-    // METODO #2 para escrever em arquivos
-    private fun createFile(){
-        if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED
-        ){
-
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),101)
-            return
-        }
-
-        val path = this.getExternalFilesDir(null)
-        val folder = File(path,"Android_Writer")
-        folder.mkdirs()
-        val file = File(folder,"${date.toString("yyyy_MM_dd__HH_mm_ss")}.crd")
-        file.appendText("Data:${onlydate}\nLatitude:${lat}\nLongitude:${long}\n")
-        Toast.makeText(this,"Arquivo Salvo",Toast.LENGTH_SHORT).show()
-
-
-
-    }
-
-    // METODO #3 para escrever em arquivos
-    private fun createDeleteFile() {
-        val file = File(getExternalFilesDir(null), "tp1.txt")
-        val os: OutputStream = FileOutputStream(file)
-        os.write("Data:${onlydate}\nLatitude:${lat}\nLongitude:${long}".toByteArray())
-        os.close()
-
-
-
-    }
 
 }

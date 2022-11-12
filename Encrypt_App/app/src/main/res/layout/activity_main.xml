@@ -1,72 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@color/azul_cinza"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:layout_marginVertical="30dp"
-        android:text="anotação"
-        android:textAlignment="center"
-        android:textColor="@color/abobora"
-        android:textSize="25dp" />
+        android:layout_height="match_parent"
+        android:background="@color/azul_cinza"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/txt_anotações"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="30dp"
-        android:backgroundTint="@color/abobora"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textAlignment="center" />
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/adView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="30dp"
-        android:text="Titulo"
-        android:textAlignment="center"
-        android:textColor="@color/abobora"
-        android:textSize="25dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginVertical="30dp"
+            android:text="anotação"
+            android:textAlignment="center"
+            android:textColor="@color/abobora"
+            android:textSize="25dp" />
 
-    <EditText
-        android:id="@+id/txt_titulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/abobora"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        <EditText
+            android:id="@+id/txt_anotações"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="30dp"
+            android:background="@drawable/rounded"
+            android:backgroundTint="@color/abobora"
+            android:hint="anotações"
+            android:minHeight="48dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="30dp"
+            android:text="Titulo"
+            android:textAlignment="center"
+            android:textColor="@color/abobora"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/txt_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/abobora"
+            android:minHeight="48dp"
+            android:hint="Titulo"
+            android:layout_marginVertical="16dp"
+            android:textAlignment="center"
+            android:background="@drawable/rounded"
+            android:ems="10"
+            android:inputType="textPersonName" />
 
 
-    <Button
-        android:id="@+id/btn_save_file"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save " />
+        <Button
+            android:id="@+id/btn_save_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:layout_marginVertical="24dp"
+            android:layout_gravity="center"
+            android:text="Save " />
 
-    <Button
-        android:id="@+id/btn_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="anotações"/>
+        <Button
+            android:id="@+id/btn_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded"
+            android:text="anotações"/>
 
-    <TextView
-        android:id="@+id/sair"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="120dp"
-        android:textColor="@color/abobora"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:text="Sair" />
+        <Button
+            android:id="@+id/button_interstitial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:layout_gravity="center"
+            android:onClick="showInterstitial"
+            android:layout_marginVertical="20dp"
+            android:text="Show Interstitial"/>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/button_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="68dp"
+            android:background="@drawable/rounded"
+            android:layout_gravity="center"
+            android:onClick="showReward"
+            android:text="Show Reward Ad"/>
+
+        <TextView
+            android:id="@+id/sair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/abobora"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:text="Sair" />
+
+
+    </LinearLayout>
+
+</ScrollView>
+
