@@ -114,14 +114,17 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_save_file).setOnClickListener {
 //            createFile()
             requestWritePermission()
-            findViewById<Button>(R.id.btn_result).isEnabled = true
+            Toast.makeText(this,"Arquivo Salvo",Toast.LENGTH_SHORT).show()
 
 
         }
 
         findViewById<TextView>(R.id.sair).setOnClickListener{
             val intent = Intent(this,Login::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
+            finish()
+
         }
 
 

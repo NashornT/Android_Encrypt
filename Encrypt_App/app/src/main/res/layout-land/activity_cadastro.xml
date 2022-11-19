@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/btn_cadastar_salvar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/azul_cinza"
+        tools:context=".Auth.Cadastro">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="98dp" />
+
+        <EditText
+            android:id="@+id/txt_cadastrar_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded"
+            android:backgroundTint="@color/abobora"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:hint="Email"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/txt_cadastrar_senha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/rounded"
+            android:backgroundTint="@color/abobora"
+            android:gravity="center"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            android:hint="Senha"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/txt_cadastar_confirma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded"
+            android:backgroundTint="@color/abobora"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:hint="Confirma Senha"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/btn_cadastro_salvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="160dp"
+            android:layout_marginVertical="20dp"
+            android:background="@drawable/rounded"
+            android:text="Salvar" />
+
+        <TextView
+            android:id="@+id/txt_ja_cadastro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="40dp"
+            android:textColor="@color/abobora"
+            android:text="Já possuo cadastro "
+            android:textAlignment="center"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+</ScrollView>
